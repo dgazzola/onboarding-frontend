@@ -8,16 +8,15 @@ import PageTwo from "@/components/PageTwo";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Added error state
-  const { login, user, isAuthenticated, isLoading, logout } = useProfile(); // Use the ProfileContext
+  const [error, setError] = useState("");
+  const { login, user, isAuthenticated, isLoading, logout } = useProfile();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(""); // Reset error message on new submission
+    setError("");
     try {
       await login(email, password);
     } catch (err) {
-      // Display error message if login fails
       setError("Incorrect password for given email!");
     }
   };
@@ -26,7 +25,18 @@ export default function Home() {
     logout();
   };
 
-  // Render a loading state while checking authentication
+  const isEmailValid = (email:string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isPasswordValid = (password:string) => {
+    return password.trim() !== "";
+  };
+
+  const isFormValid = () => {
+    return isEmailValid(email) && isPasswordValid(password);
+  };
+
   if (isLoading) {
     return <Container maxWidth="xs" className={styles.page}><Typography>Loading...</Typography></Container>;
   }
@@ -68,6 +78,7 @@ export default function Home() {
             variant="contained"
             color="primary"
             fullWidth
+            disabled={!isFormValid()}
           >
             Sign In / Sign Up
           </Button>
