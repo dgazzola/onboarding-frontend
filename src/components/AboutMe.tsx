@@ -1,14 +1,14 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { TextField, Box, Button } from '@mui/material';
+import { TextField, Box } from '@mui/material';
 import { useProfile } from '@/context/ProfileProvider';
+import { User } from '@/types';
 
 const AboutMe = () => {
-  const { user, setUser, updateUser } = useProfile();
-  const [aboutMe, setAboutMe] = useState(user?.aboutMe || '');
+  const { user, setUser } = useProfile();
+  const [aboutMe, setAboutMe] = useState<string>(user?.aboutMe || '');
 
   useEffect(() => {
-    // Sync local state with user context state
     setAboutMe(user?.aboutMe || '');
   }, [user?.aboutMe]);
 
@@ -16,10 +16,14 @@ const AboutMe = () => {
     const { value } = e.target;
     setAboutMe(value);
 
-    // Update the user context state directly
-    setUser(prevUser => {
-      const updatedUser = { ...prevUser, aboutMe: value };
+    setUser((prevUser) => {
+      if (!prevUser) return null;
+      const updatedUser: User = {
+        ...prevUser,
+        aboutMe: value,
+      };
       localStorage.setItem('user', JSON.stringify(updatedUser));
+      
       return updatedUser;
     });
   };

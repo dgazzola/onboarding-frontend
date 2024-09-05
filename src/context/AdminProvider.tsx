@@ -19,23 +19,20 @@ interface AdminContextType {
 
 // Create a context with default values
 const AdminContext = createContext<AdminContextType>({
-  settings: { aboutme: 2, address: 2, birthdate: 3 }, // Default values
+  settings: { aboutme: 3, address: 2, birthdate: 2 },
   isLoading: true,
   fetchSettings: async () => {},
   updateSettings: async () => {},
 });
 
-// AdminProvider component
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
-  const [settings, setSettings] = useState<AdminSettings>({ aboutme: 2, address: 2, birthdate: 3 });
+  const [settings, setSettings] = useState<AdminSettings>({ aboutme: 3, address: 2, birthdate: 2 });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Fetch settings from the backend
   const fetchSettings = async () => {
     try {
       const response = await axios.get<AdminSettings>('http://localhost:8080/admin');
       setSettings(response.data);
-      console.log('existing admin provider settings:', response.data);
     } catch (error) {
       console.error("Failed to fetch admin settings", error);
     } finally {
@@ -43,9 +40,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Update settings on the backend
   const updateSettings = async (updatedSettings: AdminSettings) => {
-    console.log('updating settings:', updatedSettings)
     try {
       await axios.put('http://localhost:8080/admin', updatedSettings);
       setSettings(updatedSettings);
@@ -65,5 +60,4 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook to use the AdminContext
 export const useAdmin = () => useContext(AdminContext);

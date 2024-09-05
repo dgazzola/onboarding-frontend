@@ -11,7 +11,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const { login, user, isAuthenticated, isLoading, logout } = useProfile();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
     try {

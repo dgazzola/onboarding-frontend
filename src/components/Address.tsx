@@ -1,6 +1,8 @@
+'use client';
 import React, { useState } from 'react';
-import { TextField, Box, Button } from '@mui/material';
+import { TextField, Box } from '@mui/material';
 import { useProfile } from '@/context/ProfileProvider';
+import { User } from '@/types';
 
 const Address = () => {
   const { user, setUser } = useProfile();
@@ -15,16 +17,19 @@ const Address = () => {
     const { name, value } = e.target;
     setAddress(prevAddress => {
       const updatedAddress = { ...prevAddress, [name]: value };
-      // Update user in context
       setUser(prevUser => {
-        const updatedUser = { ...prevUser, address: updatedAddress };
+        if (!prevUser) return null;
+        const updatedUser: User = {
+          ...prevUser,
+          address: updatedAddress,
+        };
         localStorage.setItem('user', JSON.stringify(updatedUser));
+        
         return updatedUser;
       });
       return updatedAddress;
     });
   };
-  // const handleClick = () => {console.log('user:', user)}
 
   return (
     <Box>
@@ -65,10 +70,6 @@ const Address = () => {
         value={address.zip}
         onChange={handleAddressChange}
       />
-      {/* <Button
-        variant="contained"
-        color="primary"
-        onClick={handleClick}></Button> */}
     </Box>
   );
 };

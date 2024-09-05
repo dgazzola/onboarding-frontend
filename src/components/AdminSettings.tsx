@@ -1,6 +1,7 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useAdmin } from '@/context/AdminProvider';
-import { Button, MenuItem, Select, FormControl, InputLabel, FormHelperText, Box } from '@mui/material';
+import { Button, MenuItem, Select, FormControl, InputLabel, FormHelperText, Box, SelectChangeEvent } from '@mui/material';
 
 interface AdminSettings {
   aboutme: 2 | 3;
@@ -32,10 +33,9 @@ const AdminSettings = () => {
     setFormSettings(settings);
   }, [settings]);
 
-  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+  const handleChange = (event: SelectChangeEvent<2 | 3>) => {
     const name = event.target.name as keyof AdminSettings;
     const value = event.target.value as 2 | 3;
-
     setFormSettings({
       ...formSettings,
       [name]: value
@@ -50,6 +50,7 @@ const AdminSettings = () => {
         setError("Failed to update settings");
       }
   };
+
   const saveButtonDisabled = isUnchanged() || allSettingsSame(formSettings);
   const helperText = allSettingsSame(formSettings)
     ? "Each page needs at least one component. Please select a different page for one of the components."

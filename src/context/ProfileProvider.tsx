@@ -1,15 +1,16 @@
 'use client';
 import { useContext, createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
+import { User } from '@/types';
 
 interface ProfileContextType {
-  user: any;
+  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   updateUser: () => Promise<void>;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const ProfileContext = createContext<ProfileContextType>({
@@ -23,7 +24,7 @@ const ProfileContext = createContext<ProfileContextType>({
 });
 
 export const ProfileProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
