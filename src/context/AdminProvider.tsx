@@ -2,14 +2,12 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import axios from 'axios';
 
-// Define the shape of the admin settings
 interface AdminSettings {
   aboutme: 2 | 3;
   address: 2 | 3;
   birthdate: 2 | 3;
 }
 
-// Define the shape of the context value
 interface AdminContextType {
   settings: AdminSettings;
   isLoading: boolean;
@@ -17,7 +15,6 @@ interface AdminContextType {
   updateSettings: (updatedSettings: AdminSettings) => Promise<void>;
 }
 
-// Create a context with default values
 const AdminContext = createContext<AdminContextType>({
   settings: { aboutme: 3, address: 2, birthdate: 2 },
   isLoading: true,

@@ -7,15 +7,13 @@ import { useAdmin } from '@/context/AdminProvider';
 import { useProfile } from '@/context/ProfileProvider';
 import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import WizardBar from './WizardBar';
-import { User } from '@/types';
 
 const PageTwo = () => {
   const { settings } = useAdmin();
-  const { user, updateUser, setUser } = useProfile();
-  const currentPage = user?.currentPage ?? 2;
-
+  const { user, updateUser, setUser, isLoading } = useProfile();
   const [steps, setSteps] = useState<string[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const currentPage = user?.currentPage ?? 2;
 
   const incompleteAddress = () => {
     return !user?.address?.street || !user?.address?.city || !user?.address?.state || !user?.address?.zip;
@@ -37,19 +35,17 @@ const PageTwo = () => {
 
   const handleContinue = () => {
     if (user) {
-      setUser(prevUser => ({
-        ...prevUser,
-        currentPage: 3
-      }) as User);
+      const updatedUser = { ...user, currentPage: 3 };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
     }
   };
 
   const handlePrevious = () => {
     if (user) {
-      setUser(prevUser => ({
-        ...prevUser,
-        currentPage: 2
-      }) as User);
+      const updatedUser = { ...user, currentPage: 2 };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
     }
   };
 
@@ -65,13 +61,15 @@ const PageTwo = () => {
   };
 
   useEffect(() => {
-    const updateUserIfPageChanged = async () => {
-      if (currentPage === 2 || currentPage === 3) {
-        await updateUser();
-      }
-    };
-    updateUserIfPageChanged();
-  }, [currentPage, updateUser]);
+    if (!isLoading) {
+      const updateUserIfPageChanged = async () => {
+        if (currentPage === 2 || currentPage === 3) {
+          await updateUser();
+        }
+      };
+      updateUserIfPageChanged();
+    }
+  }, [currentPage, updateUser, isLoading]);
 
   useEffect(() => {
     const generateSteps = () => {
@@ -103,6 +101,10 @@ const PageTwo = () => {
 
     generateSteps();
   }, [settings]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
