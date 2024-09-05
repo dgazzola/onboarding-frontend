@@ -23,7 +23,6 @@ const AboutMe = () => {
         aboutMe: value,
       };
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      
       return updatedUser;
     });
   };
