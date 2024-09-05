@@ -39,15 +39,14 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post('http://localhost:8080/user/sign-in', { email, password });
-      console.log('login response:', response.data)
       if (response.data) {
-        console.log('login response data:', response.data)
         localStorage.setItem('user', JSON.stringify(response.data));
         setUser(response.data);
         setIsAuthenticated(true);
       }
     } catch (error) {
-      console.error("Login failed", error);
+      // Propagate the error to be handled by the Home component
+      throw new Error("Incorrect password for given email!");
     }
   };
 
