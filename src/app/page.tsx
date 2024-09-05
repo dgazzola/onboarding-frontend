@@ -26,6 +26,22 @@ export default function Home() {
     logout();
   };
 
+  // Function to validate email format
+  const isEmailValid = (email:string) => {
+    // Simple regex for email validation
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // Function to check if password is not empty
+  const isPasswordValid = (password:string) => {
+    return password.trim() !== "";
+  };
+
+  // Check if the form is valid
+  const isFormValid = () => {
+    return isEmailValid(email) && isPasswordValid(password);
+  };
+
   // Render a loading state while checking authentication
   if (isLoading) {
     return <Container maxWidth="xs" className={styles.page}><Typography>Loading...</Typography></Container>;
@@ -68,6 +84,7 @@ export default function Home() {
             variant="contained"
             color="primary"
             fullWidth
+            disabled={!isFormValid()} // Disable button based on validation
           >
             Sign In / Sign Up
           </Button>
