@@ -28,7 +28,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchSettings = async () => {
     try {
-      const response = await axios.get<AdminSettings>('http://localhost:8080/admin');
+      const response = await axios.get<AdminSettings>(`${process.env.NEXT_PUBLIC_BASE_API}/admin`);
       setSettings(response.data);
     } catch (error) {
       console.error("Failed to fetch admin settings", error);
@@ -39,7 +39,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
 
   const updateSettings = async (updatedSettings: AdminSettings) => {
     try {
-      await axios.put('http://localhost:8080/admin', updatedSettings);
+      await axios.put(`${process.env.NEXT_PUBLIC_BASE_API}/admin`, updatedSettings);
       setSettings(updatedSettings);
     } catch (error) {
       console.error("Failed to update admin settings", error);

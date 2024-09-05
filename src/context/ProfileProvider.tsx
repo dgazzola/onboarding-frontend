@@ -39,7 +39,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://localhost:8080/user/sign-in', { email, password });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API}/user/sign-in`, { email, password });
       if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data));
         setUser(response.data);
@@ -59,7 +59,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const updateUser = async () => {
     try {
       if (user) {
-        await axios.put('http://localhost:8080/user', user);
+        await axios.put(`${process.env.NEXT_PUBLIC_BASE_API}/user`, user);
       }
     } catch (error) {
       console.error("Update failed", error);
