@@ -1,20 +1,25 @@
 'use client';
 import { useState } from "react";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import { TextField, Button, Container, Typography, Box, FormHelperText } from "@mui/material";
 import styles from "./page.module.css";
 import { useProfile } from "@/context/ProfileProvider";
 import PageTwo from "@/components/PageTwo";
-import PageThree from "@/components/PageThree";
-import { useAdmin } from "@/context/AdminProvider";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // Added error state
   const { login, user, isAuthenticated, isLoading, logout } = useProfile(); // Use the ProfileContext
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await login(email, password);
+    setError(""); // Reset error message on new submission
+    try {
+      await login(email, password);
+    } catch (err) {
+      // Display error message if login fails
+      setError("Incorrect password for given email!");
+    }
   };
 
   const handleLogout = () => {
@@ -55,6 +60,9 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {error && (
+            <FormHelperText error>{error}</FormHelperText>
+          )}
           <Button
             type="submit"
             variant="contained"
@@ -66,7 +74,7 @@ export default function Home() {
         </Box>
       ) : (
         <>
-          {(user?.currentPage === 2 || user?.currentPage === 3)&& <PageTwo />}
+          {(user?.currentPage === 2 || user?.currentPage === 3) && <PageTwo />}
           <Button
             variant="contained"
             color="secondary"
