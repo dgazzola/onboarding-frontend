@@ -46,7 +46,6 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
         setIsAuthenticated(true);
       }
     } catch (error) {
-      // Propagate the error to be handled by the Home component
       throw new Error("Incorrect password for given email!");
     }
   };
