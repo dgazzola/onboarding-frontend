@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import TextField from '@mui/material/TextField';
 import moment, { Moment } from 'moment';
 import { useProfile } from '@/context/ProfileProvider';
 
@@ -12,7 +11,7 @@ const Birthdate = () => {
 
   const handleDateChange = (newValue: Moment | null) => {
     setValue(newValue);
-  
+
     if (newValue) {
       const formattedDate = newValue.format('YYYY-MM-DD');
       setUser(prevUser => {
@@ -35,7 +34,6 @@ const Birthdate = () => {
         <DatePicker
           value={value}
           onChange={handleDateChange}
-          renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
     </>
