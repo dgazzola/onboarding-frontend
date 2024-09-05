@@ -5,7 +5,7 @@ import Address from './Address';
 import AboutMe from './AboutMe';
 import { useAdmin } from '@/context/AdminProvider';
 import { useProfile } from '@/context/ProfileProvider';
-import { Button, Box } from '@mui/material';
+import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import WizardBar from './WizardBar';
 
 const PageTwo = () => {
@@ -14,6 +14,7 @@ const PageTwo = () => {
   const { currentPage } = user;
 
   const [steps, setSteps] = useState<string[]>([]);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const incompleteAddress = () => {
     return !user?.address?.street || !user?.address?.city || !user?.address?.state || !user?.address?.zip;
@@ -49,6 +50,11 @@ const PageTwo = () => {
 
   const handleSubmit = async () => {
     await updateUser();
+    setOpenModal(true); // Open the modal after submission
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   useEffect(() => {
@@ -138,6 +144,21 @@ const PageTwo = () => {
           </>
         )}
       </Box>
+
+      {/* Modal for thank you message */}
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle>Thank You!</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Thank you for filling out your onboarding form! Feel free to change any answers if circumstances change.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
