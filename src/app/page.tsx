@@ -8,16 +8,15 @@ import PageTwo from "@/components/PageTwo";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Added error state
-  const { login, user, isAuthenticated, isLoading, logout } = useProfile(); // Use the ProfileContext
+  const [error, setError] = useState("");
+  const { login, user, isAuthenticated, isLoading, logout } = useProfile();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(""); // Reset error message on new submission
+    setError("");
     try {
       await login(email, password);
     } catch (err) {
-      // Display error message if login fails
       setError("Incorrect password for given email!");
     }
   };
@@ -26,23 +25,18 @@ export default function Home() {
     logout();
   };
 
-  // Function to validate email format
   const isEmailValid = (email:string) => {
-    // Simple regex for email validation
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // Function to check if password is not empty
   const isPasswordValid = (password:string) => {
     return password.trim() !== "";
   };
 
-  // Check if the form is valid
   const isFormValid = () => {
     return isEmailValid(email) && isPasswordValid(password);
   };
 
-  // Render a loading state while checking authentication
   if (isLoading) {
     return <Container maxWidth="xs" className={styles.page}><Typography>Loading...</Typography></Container>;
   }
@@ -84,7 +78,7 @@ export default function Home() {
             variant="contained"
             color="primary"
             fullWidth
-            disabled={!isFormValid()} // Disable button based on validation
+            disabled={!isFormValid()}
           >
             Sign In / Sign Up
           </Button>
