@@ -2,17 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CircularProgress, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+import { User } from '@/types';
 
 const DataComponent = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/user'); // Adjust port if needed
-        console.log('api frontend response.data:', response.data)
+        const response = await axios.get('http://localhost:8080/user');
         setUsers(response.data);
       } catch (err) {
         setError('Failed to fetch data');

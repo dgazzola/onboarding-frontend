@@ -3,7 +3,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
-import moment, { Moment } from 'moment';  // Import moment
+import moment, { Moment } from 'moment';
 import { useProfile } from '@/context/ProfileProvider';
 
 const Birthdate = () => {
@@ -12,16 +12,16 @@ const Birthdate = () => {
 
   const handleDateChange = (newValue: Moment | null) => {
     setValue(newValue);
-
+  
     if (newValue) {
-      const formattedDate = newValue.format('YYYY-MM-DD'); // Format as needed
-      console.log('Selected Date:', formattedDate);
-
-      // Directly update birthdate in the user object
+      const formattedDate = newValue.format('YYYY-MM-DD');
       setUser(prevUser => {
-        const updatedUser = { ...prevUser, birthdate: formattedDate };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        return updatedUser;
+        if (prevUser) {
+          const updatedUser = { ...prevUser, birthdate: formattedDate };
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+          return updatedUser;
+        }
+        return prevUser;
       });
     } else {
       console.log('No date selected');
