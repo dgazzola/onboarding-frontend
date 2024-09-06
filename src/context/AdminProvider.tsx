@@ -28,6 +28,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchSettings = async () => {
     try {
+      console.log('fetch settings url:', `${process.env.NEXT_PUBLIC_BASE_API}/admin`);
       const response = await axios.get<AdminSettings>(`${process.env.NEXT_PUBLIC_BASE_API}/admin`);
       setSettings(response.data);
     } catch (error) {
