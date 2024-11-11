@@ -10,6 +10,8 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login, user, isAuthenticated, isLoading, logout } = useProfile();
+  const apiKey = process.env.NEXT_PUBLIC_BASE_API || ''
+  console.log('frontend apiKey:', apiKey)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
