@@ -10,6 +10,7 @@ const DataComponent = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('Environment variable NEXT_PUBLIC_BASE_API:', process.env.NEXT_PUBLIC_BASE_API);
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API}/user`);
