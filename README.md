@@ -1,10 +1,8 @@
-<h1 align="center">gigshare</h1>
+<h1 align="center">Onboarding</h1>
 
-onboarding is a take home project which records user reponses to an onboarding flow.
+Onboarding is a take home project which records user reponses to an onboarding flow.
 
 [View Here](https://onboarding-frontend-one.vercel.app/)
-
-<img align="center" src="https://github.com/dgazzola/gigshare/blob/main/images/gigshare-screenshot.png" width="400" alt="gigshare homepage display."/>
 
 ## Features: 
 
